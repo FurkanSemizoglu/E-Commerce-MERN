@@ -1,7 +1,18 @@
 const express = require("express");
+const cors = require("cors");
+const dotenv = require("dotenv");
+const bodyParser = require("body-parser");
+const db = require("./config/db.js")
+
+dotenv.config();
 
 const app = express();
 
+app.use(bodyParser.json({limit : "30mb" , extended : "true"}));
+app.use(bodyParser.urlencoded({limit : "30mb" , extended : "true"}));
+
+
+app.use(cors);
 
 app.use("/" , (req,res) => {
     res.status(200).json({
@@ -9,9 +20,16 @@ app.use("/" , (req,res) => {
     })
 })
 
+const PORT = process.env.PORT 
 
-app.listen(3000, ()=> {
+db();
 
-    console.log("server is running 3000 port")
+app.listen(PORT, ()=> {
+
+    console.log(`server is running ${PORT} port`)
 
 })
+
+
+
+
